@@ -1,4 +1,5 @@
-"""This module imports and calls the main function."""
+"""This module imports and calls the function to execute the API call
+and print results to the console."""
 
 import yaml
 import video_finder as vf
