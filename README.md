@@ -17,7 +17,7 @@ pip install -r requirements.txt
 ```
 
 ## Execution
-After configuring the config.yaml file, the function can be executed from the comman line using:
+After configuring config.yaml and installing requirements, the function can be executed from the command line using:
 
 ```
 python3 ./
