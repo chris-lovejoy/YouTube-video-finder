@@ -1,0 +1,9 @@
+# config.yaml
+
+search_period_days: 7
+
+search_terms:
+- productivity
+- machine learning
+
+api_key: # ADD YOUTUBE v3 API KEY HERE
