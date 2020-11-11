@@ -65,13 +65,16 @@ def find_videos(search_terms, api_key, views_threshold, uploaded_since):
     """Calls other functions (below) to find results and populate dataframe."""
 
     # Initialise results dataframe
-    dataframe = pd.DataFrame(columns=('Title', 'Video URL', 'Custom_Score', 'Views', 'Channel Name',
-                           'Num_subscribers','View-Subscriber Ratio','Channel URL'))
+    dataframe = pd.DataFrame(columns=('Title', 'Video URL', 'Custom_Score',
+                            'Views', 'Channel Name','Num_subscribers','
+                            View-Subscriber Ratio','Channel URL'))
 
     # Run search
-    search_results, youtube_api = search_through_api(search_terms, api_key, uploaded_since)
+    search_results, youtube_api = search_through_api(search_terms, api_key,
+                                                        uploaded_since)
 
-    results_df = populate_dataframe(search_results, youtube_api, dataframe, views_threshold)
+    results_df = populate_dataframe(search_results, youtube_api, dataframe,
+                                                        views_threshold)
 
     return results_df
 
@@ -83,9 +86,9 @@ def search_through_api(search_terms, api_key, uploaded_since):
     youtube_api = build('youtube', 'v3', developerKey = api_key)
 
     #Make the search
-    results = youtube_api.search().list(q=search_terms, part='snippet', type='video',
-                                    order='viewCount', maxResults=50,
-                                    publishedAfter=uploaded_since).execute()
+    results = youtube_api.search().list(q=search_terms, part='snippet',
+                                type='video', order='viewCount', maxResults=50,
+                                publishedAfter=uploaded_since).execute()
 
     return results, youtube_api
 
