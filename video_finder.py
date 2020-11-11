@@ -8,10 +8,9 @@ Created on Wed Nov 11 16:09:52 2020
 
 
 # Load dependencies
-from apiclient.discovery import build
 import pandas as pd
 from datetime import datetime, timedelta
-
+from apiclient.discovery import build
 
 def get_start_date_string(search_period_days):
     """Returns string for date at start of search period."""
@@ -23,6 +22,7 @@ def get_start_date_string(search_period_days):
 
 def search_each_term(search_term_list, api_key, uploaded_since,
                         views_threshold=5000, num_to_print=5):
+    """Uses search term list to execute API calls and print results."""
     if type(search_term_list) == str:
         num_searches = 1
         # convert string search term into list
@@ -101,7 +101,7 @@ def populate_dataframe(results, youtube_api, df, views_threshold):
             video_url = find_video_url(item)
             channel_url = find_channel_url(item)
             channel_id = find_channel_id(item)
-            channel_name = find_channel_title(item, channel_id, youtube_api)
+            channel_name = find_channel_title(channel_id, youtube_api)
             num_subs = find_num_subscribers(channel_id, youtube_api)
             ratio = view_to_sub_ratio(viewcount, num_subs)
             days_since_published = how_old(item)
@@ -160,7 +160,7 @@ def find_channel_url(item):
     channel_url = "https://www.youtube.com/channel/" + channel_id
     return channel_url
 
-def find_channel_title(item, channel_id, youtube):
+def find_channel_title(channel_id, youtube):
     channel_search = youtube.channels().list(id=channel_id,
                                             part='brandingSettings').execute()
     channel_name = channel_search['items'][0]\
@@ -170,7 +170,7 @@ def find_channel_title(item, channel_id, youtube):
 def find_num_subscribers(channel_id, youtube):
     subs_search = youtube.channels().list(id=channel_id,
                                             part='statistics').execute()
-    if subs_search['items'][0]['statistics']['hiddenSubscriberCount'] == True:
+    if subs_search['items'][0]['statistics']['hiddenSubscriberCount']:
         num_subscribers = 1000000
     else:
         num_subscribers = int(subs_search['items'][0]\
@@ -182,7 +182,7 @@ def view_to_sub_ratio(viewcount, num_subscribers):
         return 0
     else:
         ratio = viewcount / num_subscribers
-    return ratio
+        return ratio
 
 def how_old(item):
     when_published = item['snippet']['publishedAt']

@@ -1,7 +1,10 @@
+"""This module imports and calls the main function."""
+
 import yaml
 import video_finder as vf
 
 def load_yaml(filepath):
+    """Import YAML config file."""
     with open(filepath, 'r') as stream:
         try:
             return yaml.safe_load(stream)
