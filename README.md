@@ -24,13 +24,3 @@ python3 ./
 ```
 
 This will call the [__main__.py function](https://github.com/chris-lovejoy/YouTube-video-finder/blob/master/__main__.py) and output will be printed into the console.
-
-
-## File-Structure
-```bash
-|   README.md
-|   __main__.py
-|   config.yaml
-|   requirements.txt
-|   video_finder.py "The source code for the program"
-```
