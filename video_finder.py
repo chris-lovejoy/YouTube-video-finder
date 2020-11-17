@@ -61,7 +61,7 @@ def find_videos(search_terms, api_key, views_threshold, uploaded_since):
                             'View-Subscriber Ratio','Channel URL'))
 
     # Run search
-    search_results, youtube_api = search_through_api(search_terms, api_key,
+    search_results, youtube_api = search_api(search_terms, api_key,
                                                         uploaded_since)
 
     results_df = populate_dataframe(search_results, youtube_api, dataframe,
@@ -70,7 +70,7 @@ def find_videos(search_terms, api_key, views_threshold, uploaded_since):
     return results_df
 
 
-def search_through_api(search_terms, api_key, uploaded_since):
+def search_api(search_terms, api_key, uploaded_since):
     """Executes search through API and returns result."""
 
     # Initialise API call
