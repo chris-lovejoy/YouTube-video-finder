@@ -27,8 +27,8 @@ def search_each_term(search_terms, api_key, uploaded_since,
         search_terms = [search_terms]
 
     list_of_dfs = []
-    for i in range(len(search_terms)):
-        df = find_videos(search_terms[i], api_key, views_threshold=views_threshold,
+    for index, search_term in enumerate(search_terms):
+        df = find_videos(search_terms[index], api_key, views_threshold=views_threshold,
                          uploaded_since = uploaded_since)
         df = df.sort_values(['Custom_Score'], ascending=[0])
         list_of_dfs.append(df)
@@ -41,9 +41,9 @@ def search_each_term(search_terms, api_key, uploaded_since,
     print("==========================\n")
 
     # 2 - in total
-    for i in range(len(search_terms)):
-        results_df = list_of_dfs[i]
-        print("THE TOP VIDEOS FOR SEARCH TERM '{}':".format(search_terms[i]))
+    for index, search_term in enumerate(search_terms):
+        results_df = list_of_dfs[index]
+        print("THE TOP VIDEOS FOR SEARCH TERM '{}':".format(search_terms[index]))
         print_top_videos(results_df, num_to_print)
 
     results_df_dict = dict(zip(search_terms, list_of_dfs))
