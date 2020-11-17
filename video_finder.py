@@ -24,19 +24,10 @@ def search_each_term(search_terms, api_key, uploaded_since,
                         views_threshold=5000, num_to_print=5):
     """Uses search term list to execute API calls and print results."""
     if type(search_terms) == str:
-        num_searches = 1
-        # convert string search term into list
-        search_term = search_terms
-        search_terms = []
-        search_terms.append(search_term)
-    elif type(search_terms) == list:
-        num_searches = len(search_terms)
-    else:
-        num_searches = 0
-
+        search_terms = [search_terms]
 
     list_of_dfs = []
-    for i in range(num_searches):
+    for i in range(len(search_terms)):
         df = find_videos(search_terms[i], api_key, views_threshold=views_threshold,
                          uploaded_since = uploaded_since)
         df = df.sort_values(['Custom_Score'], ascending=[0])
@@ -50,7 +41,7 @@ def search_each_term(search_terms, api_key, uploaded_since,
     print("==========================\n")
 
     # 2 - in total
-    for i in range(num_searches):
+    for i in range(len(search_terms)):
         results_df = list_of_dfs[i]
         print("THE TOP VIDEOS FOR SEARCH TERM '{}':".format(search_terms[i]))
         print_top_videos(results_df, num_to_print)
