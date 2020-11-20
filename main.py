@@ -5,15 +5,14 @@ and print results to the console.
 
 import yaml
 import video_finder as vf
-
 import argparse
+
 parser = argparse.ArgumentParser(description='Defining search parameters')
 parser.add_argument('search_terms', type=str, nargs='+',
                         help='The terms to query. Can be multiple.')
 parser.add_argument('--search_period', type=int, default=7,
                         help='The number of days to search for.')
 args = parser.parse_args()
-
 
 def load_yaml(filepath):
     """Import YAML config file."""
