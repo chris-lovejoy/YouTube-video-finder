@@ -66,8 +66,8 @@ def find_videos(search_terms, api_key, views_threshold, uploaded_since):
 
     # Initialise results dataframe
     dataframe = pd.DataFrame(columns=('Title', 'Video URL', 'Custom_Score',
-                            'Views', 'Channel Name','Num_subscribers','
-                            View-Subscriber Ratio','Channel URL'))
+                            'Views', 'Channel Name','Num_subscribers',
+                            'View-Subscriber Ratio','Channel URL'))
 
     # Run search
     search_results, youtube_api = search_through_api(search_terms, api_key,
