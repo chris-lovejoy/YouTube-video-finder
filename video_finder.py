@@ -189,7 +189,6 @@ def how_old(item):
     return days_since_published
 
 def custom_score(viewcount, ratio, days_since_published):
-    if ratio > 5:
-        ratio = 5
+    ratio = min(ratio, 5)
     score = (viewcount * ratio) / days_since_published
     return score
