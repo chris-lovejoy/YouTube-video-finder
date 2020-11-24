@@ -1,7 +1,7 @@
 # Valuable-YouTube-Video-Finder
 
 ## The project
-The purpose of this project is to enable users to find valuable YouTube videos of their interest independent of YouTube's recommendation system.
+The purpose of this project is to enable users to find valuable YouTube videos of their interest independent of YouTube's recommendation system. For a more detailed explanation of the project, it's purpose and how it was made, see this [post on Medium](https://towardsdatascience.com/i-created-my-own-youtube-algorithm-to-stop-me-wasting-time-afd170f4ca3a).
 
 ## Setup
 
