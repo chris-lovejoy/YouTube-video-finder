@@ -20,7 +20,7 @@ pip install -r requirements.txt
 After configuring config.yaml and installing requirements, the function can be executed from the command line using:
 
 ```
-python3 ./ 'search term 1' 'search term 2'
+python3 main.py 'search term 1' 'search term 2'
 ```
 
 The default search period is 7 days, but this can be modified with the '--search-period' argument.
@@ -28,7 +28,7 @@ The default search period is 7 days, but this can be modified with the '--search
 For example:
 
 ```
-python3 ./ 'machine learning' 'medical school' --search-period 10
+python3 main.py 'machine learning' 'medical school' --search-period 10
 ```
 
 This will call the [**main.py function**](https://github.com/chris-lovejoy/YouTube-video-finder/blob/master/main.py) and output will be printed into the console.
