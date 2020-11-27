@@ -17,7 +17,7 @@ def load_yaml(filepath):
         except yaml.YAMLError as exc:
             logging.error(exc)
 
-def main(search_terms, search_period=7, api_key=None):
+def execute(search_terms, search_period=7, api_key=None):
 
     config = load_yaml('./config_ext.yaml')
 
@@ -38,6 +38,9 @@ def main(search_terms, search_period=7, api_key=None):
 
     return
 
+def main(request):
+    return
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Defining search parameters')
@@ -47,4 +50,4 @@ if __name__ == "__main__":
                         help='The number of days to search for.')
     args = parser.parse_args()
 
-    main(args.search_terms, args.search_period)
+    execute(args.search_terms, args.search_period)
