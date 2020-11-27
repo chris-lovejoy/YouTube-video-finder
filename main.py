@@ -17,7 +17,7 @@ def load_yaml(filepath):
         except yaml.YAMLError as exc:
             logging.error(exc)
 
-def main(search_terms, search_period, api_key=None):
+def main(search_terms, search_period=7, api_key=None):
 
     config = load_yaml('./config_ext.yaml')
 
