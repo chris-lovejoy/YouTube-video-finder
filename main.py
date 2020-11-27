@@ -22,9 +22,7 @@ def load_yaml(filepath):
             return yaml.safe_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
-
-
-config = load_yaml('./config.yaml')
+config = load_yaml('./config_ext.yaml')
 
 if __name__ == "__main__":
     start_date_string = vf.get_start_date_string(args.search_period)
