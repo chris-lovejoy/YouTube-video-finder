@@ -19,6 +19,10 @@ def load_yaml(filepath):
 
 def main(search_terms, search_period, api_key=None):
 
+    config = load_yaml('./config_ext.yaml')
+
+    api_key =  config['api_key']
+
     if api_key is not None:
         YOUTUBE_API_KEY = api_key
     else:
@@ -43,6 +47,4 @@ if __name__ == "__main__":
                         help='The number of days to search for.')
     args = parser.parse_args()
 
-    config = load_yaml('./config_ext.yaml')
-
-    main(args.search_terms, args.search_period, config['api_key'])
+    main(args.search_terms, args.search_period)
