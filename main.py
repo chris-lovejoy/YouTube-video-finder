@@ -6,7 +6,7 @@ and print results to the console.
 import yaml
 import video_finder as vf
 import argparse
-
+import logging
 
 def load_yaml(filepath):
     """Import YAML config file."""
@@ -14,12 +14,15 @@ def load_yaml(filepath):
         try:
             return yaml.safe_load(stream)
         except yaml.YAMLError as exc:
-            print(exc)
+            logging.error(exc)
 
 def main(search_terms, search_period, api_key):
 
     start_date_string = vf.get_start_date_string(search_period)
-    vf.search_each_term(search_terms, api_key, start_date_string)
+    try:
+        vf.search_each_term(search_terms, api_key, start_date_string)
+    except Exception as e:
+        logging.error(e)
 
     return
 
