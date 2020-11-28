@@ -40,7 +40,7 @@ main() {
 
   api_key=$1
 
-  env_var="[YOUTUBE_API_KEY=$api_key]"
+  echo "api_key: $api_key" > config_ext.yaml
 
   # Get our working project, or exit if it's not set.
 #  local project_id="$(get_project_id)"
@@ -54,21 +54,11 @@ main() {
     exit 1
   fi
 
-  env_params="--set-env-vars $env_var"
-
-  #if function already exists, update instead of create
-  if [[ $function_name="youtube_playlist" ]]; then
-    >&2 echo "If function already exists, update instead of create"
-    env_params="--update-env-vars $env_var"
-  fi
-
-
   >&2 echo "gcloud functions deploy $function_name \
     --entry-point=$entry_point \
     --runtime=python38 \
     --trigger-http \
-    --max-instances=3 \
-    $env_params"
+    --max-instances=3"
 }
 
 

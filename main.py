@@ -19,9 +19,12 @@ def load_yaml(filepath):
 
 def execute(search_terms, search_period=7, api_key=None):
 
-    config = load_yaml('./config_ext.yaml')
+    try:
+        config = load_yaml('./config_ext.yaml')
+        api_key =  config['api_key']
+    except Exception as e:
+        logging.warning(e)
 
-    api_key =  config['api_key']
 
     if api_key is not None:
         YOUTUBE_API_KEY = api_key
