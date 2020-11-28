@@ -40,8 +40,7 @@ main() {
 
   api_key=$1
 
-  echo "api_key: $api_key" > config_ext.yaml
-
+  env_var="YOUTUBE_API_KEY=$api_key"
   # Get our working project, or exit if it's not set.
 #  local project_id="$(get_project_id)"
   local project_id="TEST_PROJECT_ID"
@@ -54,17 +53,21 @@ main() {
     exit 1
   fi
 
-  >&2 echo "gcloud functions deploy $function_name \
+  env_params="--set-env-vars $env_var"
+
+  >&2 echo "CREATING FUNCTION: gcloud functions deploy $function_name \
     --entry-point=$entry_point \
     --runtime=python38 \
     --trigger-http \
-    --max-instances=3"
-
-    gcloud functions deploy $function_name \
-      --entry-point=$entry_point \
-      --runtime=python38 \
-      --trigger-http \
-      --max-instances=3
+    --max-instances=3 \
+    $env_params"
 }
+
+  gcloud functions deploy $function_name \
+    --entry-point=$entry_point \
+    --runtime=python38 \
+    --trigger-http \
+    --max-instances=3 \
+    $env_params
 
 main "$@"
