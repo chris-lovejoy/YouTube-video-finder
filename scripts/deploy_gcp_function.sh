@@ -35,7 +35,7 @@ main() {
 
   api_key=$1
 
-  env_var="[YOUTUBE_API_KEY=$api_key]"
+  env_key="YOUTUBE_API_KEY=$api_key"
 
   # Get our working project, or exit if it's not set.
   local project_id="$(get_project_id)"
