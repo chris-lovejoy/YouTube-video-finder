@@ -59,22 +59,12 @@ main() {
     --runtime=python38 \
     --trigger-http \
     --max-instances=3"
+
+    gcloud functions deploy $function_name \
+      --entry-point=$entry_point \
+      --runtime=python38 \
+      --trigger-http \
+      --max-instances=3
 }
-
-
-
-#util.sh
-# gcloud functions list
-#
-# get service_account(){
-#   gcloud config get-value account
-# }
-#
-# set -euo pipelfail
-#
-#
-#
-# git clone https://github.com/dravida/YouTube-video-finder.git
-#
 
 main "$@"

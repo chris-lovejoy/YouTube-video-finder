@@ -1,8 +1,5 @@
 # Deploy as a Google Cloud Function
 
-## Intro
-
-
 ## To do before following these instructions
 The steps below assume
 * You have created a project on Google Cloud Platform (GCP), do the following
@@ -20,7 +17,8 @@ The steps below assume
     ``` git clone --single-branch --branch gcp --depth 1 https://github.com/dravida/YouTube-video-finder```
 
 4. Deploy a gcp function providing a function name and api_key
+  ```cd YouTube-video-finder```
+  
+  ```chmod u+x scripts/deploy_gcp_function.sh```
 
-  ```chmod u+x deploy_gcp_function.sh```
-
-  ```deploy_gcp_function.sh [function-name] --api_key=your-key ```
+  ```./scripts/deploy_gcp_function.sh --api_key=your-key ```
