@@ -19,10 +19,6 @@ get_project_id() {
   echo "$project"
 }
 
-get_service_account() {
-  echo "get_service_account: TBD"
-}
-
 main() {
   entry_point="main"
   function_name="youtube_playlist"
@@ -40,11 +36,6 @@ main() {
   # Get our working project, or exit if it's not set.
   local project_id="$(get_project_id)"
   if [[ -z "$project_id" ]]; then
-    exit 1
-  fi
-
-  local service_account="$(get_service_account)"
-  if [[ -z "$service_account" ]]; then
     exit 1
   fi
 
