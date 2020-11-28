@@ -28,18 +28,31 @@ def execute(search_terms, search_period=7, api_key=None):
     else:
         YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY")
         if YOUTUBE_API_KEY is None:
-            raise Exception("Missing Credentials")
+            result = "Missing Credentials"
+            raise Exception(result)
 
     start_date_string = vf.get_start_date_string(search_period)
     try:
-        vf.search_each_term(search_terms, YOUTUBE_API_KEY, start_date_string)
+        result = vf.search_each_term(search_terms, YOUTUBE_API_KEY, start_date_string)
     except Exception as e:
         logging.error(e)
 
-    return
+    return result
 
 def main(request):
-    return
+    if request.args and 'search_terms' in request.args:
+        search_terms = request.args.get('search_terms').split('|')
+        if 'search_period' in request.args:
+            try:
+                search_period = int(request.args.get('search_period'))
+            except Exception as e:
+                logging.warning(f'Unable to cast search_period as int. {e} \ Using default search_period')
+
+        search = execute(search_terms, search_period)
+        result = search['top_videos'][:5].to_html()
+    else:
+        result = "Missing search_terms parameter"
+    return result
 
 if __name__ == "__main__":
 
