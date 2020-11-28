@@ -18,6 +18,8 @@ The steps below assume
 
 4. Deploy a gcp function providing a function name and api_key
 
+  ```cd YouTube-video-finder```
+
   ```chmod u+x scripts/deploy_gcp_function.sh```
 
   ```./scripts/deploy_gcp_function.sh --api_key=your-key ```
