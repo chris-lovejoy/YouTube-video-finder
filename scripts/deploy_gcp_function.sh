@@ -1,11 +1,6 @@
 #!/bin/bash
 # deploy_gcp_function.sh
-
-# STEPS:
-# auth cloud shell `gcloud auth list`
-# config project `gcloud config set project <PROJECT_ID>`
-# clone this repo, run this script
-# run deploy_gcp_function.sh
+# Execute this script in GCP cloud shell to create a youtube_playlist function
 
 set -euo pipefail
 
@@ -40,10 +35,10 @@ main() {
 
   api_key=$1
 
-  env_var="YOUTUBE_API_KEY=$api_key"
+  env_var="[YOUTUBE_API_KEY=$api_key]"
+
   # Get our working project, or exit if it's not set.
-#  local project_id="$(get_project_id)"
-  local project_id="TEST_PROJECT_ID"
+  local project_id="$(get_project_id)"
   if [[ -z "$project_id" ]]; then
     exit 1
   fi
@@ -55,19 +50,25 @@ main() {
 
   env_params="--set-env-vars $env_var"
 
-  >&2 echo "CREATING FUNCTION: gcloud functions deploy $function_name \
+  #if function already exists, update instead of create
+  if [[ $function_name="youtube_playlist" ]]; then
+    >&2 echo "If function already exists, update instead of create"
+    env_params="--update-env-vars $env_var"
+  fi
+
+  >&2 echo "gcloud functions deploy $function_name \
     --entry-point=$entry_point \
     --runtime=python38 \
     --trigger-http \
     --max-instances=3 \
-    $env_params"
-}
+    --set-env-vars=$env_key"
 
   gcloud functions deploy $function_name \
     --entry-point=$entry_point \
     --runtime=python38 \
     --trigger-http \
     --max-instances=3 \
-    $env_params
+    --set-env-vars=$env_key
+}
 
 main "$@"
