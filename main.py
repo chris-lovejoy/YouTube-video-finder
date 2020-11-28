@@ -41,15 +41,22 @@ def execute(search_terms, search_period=7, api_key=None):
 
 def main(request):
     if request.args and 'search_terms' in request.args:
+        video_count = 5
         search_terms = request.args.get('search_terms').split('|')
+
         if 'search_period' in request.args:
             try:
                 search_period = int(request.args.get('search_period'))
             except Exception as e:
                 logging.warning(f'Unable to cast search_period as int. {e} \ Using default search_period')
+        if 'video_count' in request.args:
+            try:
+                video_count = int(request.args.get('video_count'))
+            except Exception as e:
+                logging.warning(f'Problem with video_count parameter. Using default')
 
         search = execute(search_terms, search_period)
-        result = search['top_videos'][:5].to_html()
+        result = search['top_videos'][:video_count].to_html()
     else:
         result = "Missing search_terms parameter"
     return result
