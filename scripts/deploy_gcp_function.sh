@@ -39,14 +39,6 @@ main() {
     exit 1
   fi
 
-  env_params="--set-env-vars $env_var"
-
-  #if function already exists, update instead of create
-  if [[ $function_name="youtube_playlist" ]]; then
-    >&2 echo "If function already exists, update instead of create"
-    env_params="--update-env-vars $env_var"
-  fi
-
   >&2 echo "gcloud functions deploy $function_name \
     --entry-point=$entry_point \
     --runtime=python38 \
