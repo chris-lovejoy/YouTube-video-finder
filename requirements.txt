@@ -7,7 +7,7 @@ google-api-python-client==1.12.5
 google-auth==1.23.0
 google-auth-httplib2==0.0.4
 googleapis-common-protos==1.52.0
-httplib2==0.18.1
+httplib2==0.19.0
 idna==2.10
 isort==5.6.4
 lazy-object-proxy==1.4.3
