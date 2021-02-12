@@ -119,9 +119,10 @@ def print_top_videos(df, num_to_print):
             views = video['Views']
             subs = video['Num_subscribers']
             link = video['Video URL']
-            print("Video #{}:\nThe video '{}' has {} views, from a channel \
+            channel_name = video['Channel Name']
+            print("Video #{}:\nThe video '{}' has {} views, from the channel {} \
 with {} subscribers and can be viewed here: {}\n"\
-                                        .format(i+1, title, views, subs, link))
+                                        .format(i+1, title, views, channel_name, subs, link))
             print("==========================\n")
 
 
