@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "youtube-video-finder"
+version = "0.1.0"
+description = "A tool to intentionally discover valuable videos"
+authors = ["chris lovejoy"]
+license = "MIT License"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+astroid = "2.4.2"
+cachetools = "4.1.1"
+certifi = "2020.11.8"
+chardet = "3.0.4"
+google-api-core = "1.23.0"
+google-api-python-client = "1.12.5"
+google-auth = "1.23.0"
+google-auth-httplib2 = "0.0.4"
+googleapis-common-protos = "1.52.0"
+httplib2 = "0.19.0"
+idna = "2.10"
+isort = "5.6.4"
+lazy-object-proxy = "1.4.3"
+mccabe = "0.6.1"
+numpy = "1.19.4"
+pandas = "1.1.4"
+protobuf = "3.13.0"
+pyasn1 = "0.4.8"
+pyasn1-modules = "0.2.8"
+pylint = "2.6.0"
+python-dateutil = "2.8.1"
+pytz = "2020.4"
+PyYAML = "5.4"
+requests = "^2.26.0"
+rsa = "4.7"
+six = "1.15.0"
+toml = "0.10.2"
+uritemplate = "3.0.1"
+urllib3 = "^1.26.7"
+wrapt = "1.12.1"
+
+[tool.poetry.dev-dependencies]
+better-exceptions = "^0.3.3"
+pytest = "^6.2.5"
+pre-commit = "^2.15.0"
+pytest-monkeytype = "^1.1.0"
+pytest-golden = "^0.2.1"
+pytest-vcr = "^1.0.2"
+pdbpp = "^0.10.3"
+pytest-isort = "^2.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::UserWarning",
+]
+addopts = "-x -vv --monkeytype-output=./monkeytype.sqlite3"
+enable_assertion_pass_hook=true
+
+[tool.isort]
+profile = 'black'
