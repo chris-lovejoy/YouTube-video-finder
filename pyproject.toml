@@ -47,6 +47,7 @@ pytest-golden = "^0.2.1"
 pytest-vcr = "^1.0.2"
 pdbpp = "^0.10.3"
 pytest-isort = "^2.0.0"
+pytest-freezegun = "^0.4.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
