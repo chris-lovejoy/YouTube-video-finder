@@ -1,0 +1,48 @@
+---
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.0.1
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: check-yaml
+          - id: check-added-large-files
+    - repo: https://github.com/psf/black
+      rev: 21.9b0
+      hooks:
+          - id: black
+            # Should be a command that runs python3.6+
+            language_version: python3
+
+    - repo: https://gitlab.com/smop/pre-commit-hooks
+      rev: v1.0.0
+      hooks:
+          - id: check-poetry
+
+    - repo: https://github.com/adrienverge/yamllint.git
+      rev: v1.26.3  # or higher tag
+      hooks:
+          - id: yamllint
+            args: [--format, parsable, --strict]
+    - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+      rev: 0.1.0  # or specific tag
+      hooks:
+          - id: yamlfmt
+    - repo: https://github.com/asottile/pyupgrade
+      rev: v2.29.0
+      hooks:
+          - id: pyupgrade
+    - repo: https://github.com/pycqa/isort
+      rev: 5.9.3
+      hooks:
+          - id: isort
+            name: isort (python)
+            args: [--profile, black]
+          - id: isort
+            name: isort (cython)
+            types: [cython]
+          - id: isort
+            name: isort (pyi)
+            types: [pyi]
