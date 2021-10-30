@@ -46,7 +46,13 @@ def test_populate_dataframe_invidious(freezer, golden):
 @pytest.mark.vcr()
 @pytest.mark.golden_test("data/test_search_each_term*.yaml")
 def test_search_each_term(freezer, golden):
-    res = vf.search_each_term(golden["input"], api_key=None, uploaded_since=None)
+    res = vf.search_each_term(
+        golden["input"],
+        api_key=None,
+        uploaded_since=None,
+        invidious=golden["invidious"],
+    )
     assert (
-        list(sorted(((k, v.to_dict()) for k, v in res.items()))) == golden.out["output"]
+        list(sorted(((k, list(sorted(v.to_dict().items()))) for k, v in res.items())))
+        == golden.out["output"]
     )
