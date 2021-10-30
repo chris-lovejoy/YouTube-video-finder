@@ -7,6 +7,7 @@ Created on Wed Nov 11 16:09:52 2020
 """
 
 
+import typing as T
 from datetime import datetime, timedelta
 
 import pandas as pd
@@ -29,7 +30,7 @@ def get_start_date_string(search_period_days):
 
 def search_each_term(
     search_terms, api_key, uploaded_since, views_threshold=5000, num_to_print=5
-):
+) -> T.Dict["str", pd.DataFrame]:
     """Uses search term list to execute API calls and print results."""
     if type(search_terms) == str:
         search_terms = [search_terms]
@@ -64,7 +65,9 @@ def search_each_term(
     return results_df_dict
 
 
-def find_videos(search_terms, api_key, views_threshold, uploaded_since):
+def find_videos(
+    search_terms, api_key, views_threshold, uploaded_since, use_invidious=True
+):
     """Calls other functions (below) to find results and populate dataframe."""
 
     # Initialise results dataframe
@@ -81,14 +84,20 @@ def find_videos(search_terms, api_key, views_threshold, uploaded_since):
         )
     )
 
+    if use_invidious:
+        return populate_dataframe_invidious(
+            requests.get(
+                "http://127.0.0.1:3000/api/v1/search",
+                params={"q": search_terms, "type": "video"},
+            ).json(),
+            dataframe,
+            views_threshold,
+            Session(),
+        )
     # Run search
     search_results, youtube_api = search_api(search_terms, api_key, uploaded_since)
 
-    results_df = populate_dataframe(
-        search_results, youtube_api, dataframe, views_threshold
-    )
-
-    return results_df
+    return populate_dataframe(search_results, youtube_api, dataframe, views_threshold)
 
 
 def search_api(search_terms, api_key, uploaded_since):
