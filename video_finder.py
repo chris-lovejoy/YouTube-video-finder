@@ -8,7 +8,7 @@ Created on Wed Nov 11 16:09:52 2020
 
 
 import typing as T
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
 import pandas as pd
@@ -37,13 +37,12 @@ def search_each_term(
     uploaded_since,
     views_threshold=5000,
     num_to_print=5,
-    invidious=DEFAULT_INVIDIOUS,
+    invidious=None,
 ) -> T.Dict["str", pd.DataFrame]:
     """Uses search term list to execute API calls and print results."""
     if type(search_terms) == str:
         search_terms = [search_terms]
 
-    session = Session(base=invidious)
     list_of_dfs = []
     for index, search_term in enumerate(search_terms):
         df = find_videos(
@@ -51,6 +50,8 @@ def search_each_term(
             api_key,
             views_threshold=views_threshold,
             uploaded_since=uploaded_since,
+            use_invidious=True if invidious else False,
+            session=Session(base=invidious) if invidious else None,
         )
         df = df.sort_values(["Custom_Score"], ascending=[0])
         list_of_dfs.append(df)
@@ -102,7 +103,7 @@ def find_videos(
         if session is None:
             session = Session()
         return populate_dataframe_invidious(
-            session.search_api(search_term),
+            session.search_api(search_terms),
             dataframe,
             views_threshold,
             session,
@@ -169,10 +170,10 @@ def populate_dataframe(results, youtube_api, df, views_threshold):
 @dataclass
 class Session:
 
-    num_subscriber_dict = {}
-    base = DEFAULT_INVIDIOUS
+    num_subscriber_dict: dict = field(default_factory=dict)
+    base: str = DEFAULT_INVIDIOUS
 
-    def search_api(self, search_term) -> T.List[T.Dict[str, T.Any]]:
+    def search_api(self, search_terms) -> T.List[T.Dict[str, T.Any]]:
         return requests.get(
             self.base + "/api/v1/search",
             params={"q": search_terms, "type": "video"},
@@ -203,7 +204,7 @@ def populate_dataframe_invidious(results, df, views_threshold, session):
             video_id = item.get("videoId", None)
             author_url = item.get("authorUrl", None)
             channel_id = item.get("authorId", None)
-            num_subs = session.find_num_subscribers(channel_id)  # TODO
+            num_subs = session.find_num_subscribers(channel_id)
             ratio = view_to_sub_ratio(viewcount, num_subs)
             args = [
                 item.get("title", None),

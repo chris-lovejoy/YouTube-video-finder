@@ -19,8 +19,7 @@ parser.add_argument(
 parser.add_argument(
     "--invidious",
     type=str,
-    default=vf.DEFAULT_INVIDIOUS,
-    help="Invidious instance to use.",
+    help="Invidious instance to use. Will use youtube api if not given",
 )
 args = parser.parse_args()
 
@@ -39,5 +38,8 @@ config = load_yaml("./config.yaml")
 if __name__ == "__main__":
     start_date_string = vf.get_start_date_string(args.search_period)
     vf.search_each_term(
-        args.search_terms, config["api_key"], start_date_string, invidious=vf.invidious
+        args.search_terms,
+        config["api_key"],
+        start_date_string,
+        invidious=args.invidious,
     )
