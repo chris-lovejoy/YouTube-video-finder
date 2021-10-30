@@ -8,6 +8,7 @@ Created on Wed Nov 11 16:09:52 2020
 
 
 import typing as T
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 
 import pandas as pd
@@ -15,6 +16,8 @@ import pandas as pd
 # Load dependencies
 import requests
 from apiclient.discovery import build
+
+DEFAULT_INVIDIOUS = "http://127.0.0.1:3000"
 
 
 def get_start_date_string(search_period_days):
@@ -29,12 +32,18 @@ def get_start_date_string(search_period_days):
 
 
 def search_each_term(
-    search_terms, api_key, uploaded_since, views_threshold=5000, num_to_print=5
+    search_terms,
+    api_key,
+    uploaded_since,
+    views_threshold=5000,
+    num_to_print=5,
+    invidious=DEFAULT_INVIDIOUS,
 ) -> T.Dict["str", pd.DataFrame]:
     """Uses search term list to execute API calls and print results."""
     if type(search_terms) == str:
         search_terms = [search_terms]
 
+    session = Session(base=invidious)
     list_of_dfs = []
     for index, search_term in enumerate(search_terms):
         df = find_videos(
@@ -66,7 +75,12 @@ def search_each_term(
 
 
 def find_videos(
-    search_terms, api_key, views_threshold, uploaded_since, use_invidious=True
+    search_terms,
+    api_key,
+    views_threshold,
+    uploaded_since,
+    use_invidious=True,
+    session=None,
 ):
     """Calls other functions (below) to find results and populate dataframe."""
 
@@ -85,14 +99,13 @@ def find_videos(
     )
 
     if use_invidious:
+        if session is None:
+            session = Session()
         return populate_dataframe_invidious(
-            requests.get(
-                "http://127.0.0.1:3000/api/v1/search",
-                params={"q": search_terms, "type": "video"},
-            ).json(),
+            session.search_api(search_term),
             dataframe,
             views_threshold,
-            Session(),
+            session,
         )
     # Run search
     search_results, youtube_api = search_api(search_terms, api_key, uploaded_since)
@@ -153,15 +166,23 @@ def populate_dataframe(results, youtube_api, df, views_threshold):
     return df
 
 
+@dataclass
 class Session:
 
     num_subscriber_dict = {}
+    base = DEFAULT_INVIDIOUS
+
+    def search_api(self, search_term) -> T.List[T.Dict[str, T.Any]]:
+        return requests.get(
+            self.base + "/api/v1/search",
+            params={"q": search_terms, "type": "video"},
+        ).json()
 
     def find_num_subscribers(self, channel_id):
         if channel_id not in self.num_subscriber_dict:
             num_subscriber = (
                 requests.get(
-                    "http://127.0.0.1:3000/api/v1/channels/" + channel_id,
+                    self.base + "/api/v1/channels/" + channel_id,
                     params={"fields": "subCount"},
                 )
                 .json()
