@@ -41,3 +41,12 @@ def test_populate_dataframe_invidious(freezer, golden):
     )
     assert res_df.to_dict() == golden.out["output"]
     assert session.num_subscriber_dict == golden.out["num_subscriber_dict"]
+
+
+@pytest.mark.vcr()
+@pytest.mark.golden_test("data/test_search_each_term*.yaml")
+def test_search_each_term(freezer, golden):
+    res = vf.search_each_term(golden["input"], api_key=None, uploaded_since=None)
+    assert (
+        list(sorted(((k, v.to_dict()) for k, v in res.items()))) == golden.out["output"]
+    )
